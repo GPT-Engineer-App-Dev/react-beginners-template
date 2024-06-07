@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_PROJECT_URL;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_API_KEY;
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 import React from "react";
 export const queryClient = new QueryClient();
@@ -38,13 +38,13 @@ comments // table: comments
 // Hooks for events table
 export const useEvents = () => useQuery({
     queryKey: ['events'],
-    queryFn: () => fromSupabase(supabase.from('events').select('*')),
+    queryFn: () => fetchFromSupabase(supabase.from('events').select('*')),
 });
 
 export const useAddEvent = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (newEvent) => fromSupabase(supabase.from('events').insert([newEvent])),
+        mutationFn: (newEvent) => fetchFromSupabase(supabase.from('events').insert([newEvent])),
         onSuccess: () => {
             queryClient.invalidateQueries('events');
         },
@@ -54,7 +54,7 @@ export const useAddEvent = () => {
 export const useUpdateEvent = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (updatedEvent) => fromSupabase(supabase.from('events').update(updatedEvent).eq('id', updatedEvent.id)),
+        mutationFn: (updatedEvent) => fetchFromSupabase(supabase.from('events').update(updatedEvent).eq('id', updatedEvent.id)),
         onSuccess: () => {
             queryClient.invalidateQueries('events');
         },
@@ -64,7 +64,7 @@ export const useUpdateEvent = () => {
 export const useDeleteEvent = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id) => fromSupabase(supabase.from('events').delete().eq('id', id)),
+        mutationFn: (id) => fetchFromSupabase(supabase.from('events').delete().eq('id', id)),
         onSuccess: () => {
             queryClient.invalidateQueries('events');
         },
@@ -74,13 +74,13 @@ export const useDeleteEvent = () => {
 // Hooks for comments table
 export const useComments = () => useQuery({
     queryKey: ['comments'],
-    queryFn: () => fromSupabase(supabase.from('comments').select('*')),
+    queryFn: () => fetchFromSupabase(supabase.from('comments').select('*')),
 });
 
 export const useAddComment = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (newComment) => fromSupabase(supabase.from('comments').insert([newComment])),
+        mutationFn: (newComment) => fetchFromSupabase(supabase.from('comments').insert([newComment])),
         onSuccess: () => {
             queryClient.invalidateQueries('comments');
         },
@@ -90,7 +90,7 @@ export const useAddComment = () => {
 export const useUpdateComment = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (updatedComment) => fromSupabase(supabase.from('comments').update(updatedComment).eq('id', updatedComment.id)),
+        mutationFn: (updatedComment) => fetchFromSupabase(supabase.from('comments').update(updatedComment).eq('id', updatedComment.id)),
         onSuccess: () => {
             queryClient.invalidateQueries('comments');
         },
@@ -100,7 +100,7 @@ export const useUpdateComment = () => {
 export const useDeleteComment = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id) => fromSupabase(supabase.from('comments').delete().eq('id', id)),
+        mutationFn: (id) => fetchFromSupabase(supabase.from('comments').delete().eq('id', id)),
         onSuccess: () => {
             queryClient.invalidateQueries('comments');
         },
